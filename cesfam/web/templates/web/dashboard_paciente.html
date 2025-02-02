@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Paciente</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Dashboard Paciente</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Mis Datos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="container mt-4">
+        <h2 class="mb-4">Bienvenido, {{ paciente.nombre_completo }}</h2>
+
+        <div class="row">
+            <!-- Opciones de reserva y resultados -->
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'agendar_cita' %}" class="btn btn-primary btn-block">Reservar Hora Médico</a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="#" class="btn btn-primary btn-block">Reservar Hora Dental</a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="#" class="btn btn-primary btn-block">Resultados Exámenes</a>
+            </div>
+        </div>
+
+        <!-- Próximas citas -->
+        <h4 class="mt-4">Próximas Citas</h4>
+        <div class="list-group">
+            {% if citas.exists %}
+                {% for cita in citas %}
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <strong>{{ cita.fecha }} {{ cita.hora }}</strong> - {{ cita.motivo }} con el Dr./Dra. {{ cita.doctor }}
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No tienes citas próximas.</p>
+            {% endif %}
+        </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

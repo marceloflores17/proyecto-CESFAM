@@ -1,0 +1,170 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center">
+        <h2 class="my-4">Agendar Hora Dentista</h2>
+
+        <!-- Mostrar mensajes de éxito o error -->
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Formulario -->
+        <form method="POST" action="{% url 'agendar_hora_dentista' %}">
+            {% csrf_token %}
+
+            <!-- Selección de Doctor -->
+            <div class="form-group mb-3">
+                <label for="doctor" class="form-label">Selecciona un(a) Dentista:</label>
+                <select id="doctor" name="doctor" class="form-control mx-auto" style="max-width: 400px;" required>
+                    <option value="" disabled selected>Seleccione</option>
+                    {% for doctor in doctores %}
+                        <option value="{{ doctor.id_doctor }}">
+                            {{ doctor.nombre_completo }} - {{ doctor.especialidad }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Información del Doctor Seleccionado -->
+            <div id="doctor-info" class="mt-4" style="display:none;">
+                <h4>Detalles Dentista:</h4>
+                <img id="doctor-photo" src="" alt="Foto del Dentista" class="img-fluid mb-3 rounded-circle" style="max-width: 200px;">
+                <p class="doctor-detail"><strong>Nombre:</strong> <span id="doctor-name"></span></p>
+                <p class="doctor-detail"><strong>Especialidad:</strong> <span id="doctor-specialty"></span></p>
+                <p class="doctor-detail"><strong>Teléfono:</strong> <span id="doctor-phone"></span></p>
+                <p class="doctor-detail"><strong>RUT:</strong> <span id="doctor-rut"></span></p>
+            </div>
+
+            <!-- Motivo de la Consulta -->
+            <div id="motivo-container" class="form-group mb-3" style="display:none;">
+                <label for="motivo" class="form-label">Escriba el motivo de la consulta:</label>
+                <textarea id="motivo" name="descripcion" class="form-control mx-auto" style="max-width: 400px;" rows="4" placeholder="" required></textarea>
+            </div>
+
+            <!-- Campo de fecha -->
+            <div class="form-group mb-3">
+                <label for="fecha" class="form-label">Selecciona la fecha:</label>
+                <input type="datetime-local" id="fecha" name="fecha" class="form-control mx-auto" style="max-width: 400px;" required>
+            </div>
+
+            <!-- Botón de Agendar -->
+            <button id="agendar-btn" type="submit" class="btn btn-primary mt-3" style="width: 200px;" disabled>Agendar Hora</button>
+        </form>
+    </div>
+</div>
+<br><br>
+<script>
+    const dentistasData = [
+        {% for doctor in doctores %}
+        {
+            id: "{{ doctor.id_doctor }}",
+            nombre: "{{ doctor.nombre_completo }}",
+            especialidad: "{{ doctor.especialidad }}",
+            telefono: "{{ doctor.telefono }}",
+            rut: "{{ doctor.rut }}",
+            foto: "{{ doctor.imagen.url }}"
+        },
+        {% endfor %}
+    ];
+
+    document.getElementById('doctor').addEventListener('change', function() {
+        var doctorId = this.value;
+        var doctor = dentistasData.find(d => d.id == doctorId);
+
+        if (doctor) {
+            document.getElementById('doctor-name').innerText = doctor.nombre;
+            document.getElementById('doctor-specialty').innerText = doctor.especialidad;
+            document.getElementById('doctor-phone').innerText = doctor.telefono;
+            document.getElementById('doctor-rut').innerText = doctor.rut;
+            document.getElementById('doctor-photo').src = doctor.foto;
+            document.getElementById('doctor-info').style.display = 'block';
+            document.getElementById('motivo-container').style.display = 'block';
+            document.getElementById('agendar-btn').disabled = false;
+        }
+    });
+</script>
+
+{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 2em;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 1em;
+    }
+
+    select, textarea {
+        width: 100%;
+        padding: 0.75em;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    select:focus, textarea:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    #doctor-info {
+        margin-top: 2em;
+        text-align: center;
+    }
+
+    #doctor-photo {
+        margin-bottom: 1em;
+    }
+
+    .doctor-detail {
+        margin-bottom: 0.5em;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 0.75em;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

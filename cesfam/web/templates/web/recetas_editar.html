@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Receta - Doctor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .content {
+            flex: 1;
+        }
+        .welcome-header {
+            background-color: white;
+            color: #dc3545;
+            text-align: center;
+            padding: 0.5em;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .navbar-custom {
+            background-color: #dc3545;
+            padding: 0.5em 1em;
+        }
+        .navbar-custom .nav-link {
+            background-color: white;
+            color: #dc3545 !important;
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 0.5em 1em;
+            border-radius: 15px;
+            margin: 0 10px;
+            border: 2px solid #dc3545;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .navbar-custom .nav-link:hover {
+            background-color: #dc3545;
+            color: white !important;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 2em auto;
+            padding: 1.5em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .btn-danger-custom {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-size: 1em;
+            border-radius: 4px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .btn-danger-custom:hover {
+            background-color: #a71d2a;
+        }
+        .btn-back {
+            background-color: #f4f4f4;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+            padding: 0.75em 1.5em;
+            border-radius: 4px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 1em;
+        }
+        .btn-back:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+        .image-preview {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        footer {
+            background-color: #dc3545;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="welcome-header">
+        Editar/Borrar Receta - Panel de Doctor
+    </div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard_doctor' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Salir</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Editar/Borrar Receta</h2>
+
+        {% if messages %}
+        <div class="mb-4 text-center">
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-container">
+            <form method="POST" enctype="multipart/form-data" autocomplete="off">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="form-group mb-3">
+                    <label>Doctor(a):</label>
+                    <span>{{ receta.doctor.nombre_completo }}</span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Paciente:</label>
+                    <span>{{ receta.paciente.nombre_completo }}</span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Examen:</label>
+                    <span>{{ receta.examen.nombre_examen|default:'No asignado' }}</span>
+                </div>
+
+
+                <div class="form-group mb-3">
+                    <label for="descripcion">Descripción de la Receta:</label>
+                    {{ form.descripcion }}
+                </div>
+
+
+                <div class="form-group mb-3">
+                    <label for="medicamento">Medicamento Prescrito:</label>
+                    {{ form.medicamento }}
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="dosis">Dosis:</label>
+                    {{ form.dosis }}
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="frecuencia">Frecuencia de Administración:</label>
+                    {{ form.frecuencia }}
+                </div>
+
+                <!-- Aquí está el campo para el archivo -->
+                <div class="form-group mb-3">
+                    <label for="archivo">Subir Nueva Imagen:</label>
+                    <input type="file" name="archivo" id="archivo" class="form-control">
+                </div>
+
+                <!-- Mostrar la imagen si existe -->
+                {% if receta.archivo %}
+                    <div class="form-group mb-3">
+                        {% if receta.archivo.url|lower|slice:'-4:' == '.jpg' or receta.archivo.url|lower|slice:'-5:' == '.jpeg' or receta.archivo.url|lower|slice:'-4:' == '.png' %}
+                            <div class="mt-2 text-center">
+                                <img src="{{ receta.archivo.url }}" alt="Imagen de la receta" class="img-fluid" style="max-width: 200px; height: auto; border-radius: 8px;">
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <span>No hay archivo subido.</span>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn-danger-custom">Guardar Cambios</button>
+            </form>
+
+            <form method="POST" action="{% url 'recetas_eliminar' receta.id %}" style="margin-top: 10px;">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger-custom" onclick="return confirm('¿Seguro que quieres eliminar esta receta?');">Eliminar Receta</button>
+            </form>
+
+            <button class="btn btn-back" onclick="window.location.href='{% url 'examenes_lista_doctor' %}'">Volver Atrás</button>
+        </div>
+    </div>
+</div>
+
+    <footer>
+        <p>&copy; 2025 Centro de Salud CESFAM</p>
+    </footer>
+
+</body>
+</html>

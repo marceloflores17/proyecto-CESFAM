@@ -1,0 +1,190 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Doctor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <style>
+        /* Estilos generales */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .content {
+            flex: 1;
+        }
+
+        /* Header de bienvenida */
+        .welcome-header {
+            background-color: white;
+            color: #dc3545;
+            text-align: center;
+            padding: 0.5em;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background-color: #dc3545;
+            padding: 0.5em 1em;
+        }
+
+        .navbar-custom .nav-link {
+            background-color: white;
+            color: #dc3545 !important; /* Rojo para el texto */
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 0.5em 1em;
+            border-radius: 15px;
+            margin: 0 10px;
+            border: 2px solid #dc3545; /* Borde rojo */
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar-custom .nav-link:hover {
+            background-color: #dc3545; /* Fondo rojo al pasar */
+            color: white !important; /* Texto blanco */
+        }
+
+        /* Cards */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            padding: 2em;
+        }
+
+        .card {
+            width: 18rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            position: relative;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Centrar contenido de texto */
+        .card-title, .card-text {
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Card imagen */
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card-body {
+            padding-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        /* Botón */
+        .card .btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+        }
+
+        .card .btn:hover {
+            background-color: #a71d2a;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #dc3545;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header de bienvenida -->
+    <div class="welcome-header">
+        Panel de Doctor
+    </div>
+
+    <!-- Navbar con palabras en fondo blanco y texto rojo -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard_doctor' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Salir</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="content">
+        {% block content %}
+        <div class="card-container">
+            <!-- Card Ver Próximas Citas -->
+            <div class="card">
+                <img src="{% static 'imagenes/citas.png' %}" alt="Próximas Citas">
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Próximas Citas</h5>
+                    <p class="card-text">Consulta las próximas citas agendadas por tus pacientes y realiza modificaciones en la fecha y hora si es necesario.</p><br>
+                    <a href="{% url 'citas_doctor' %}" class="btn">Acceder</a>
+                </div>
+            </div>
+        
+            <!-- Card Gestionar Exámenes y Recetas -->
+            <div class="card">
+                <img src="{% static 'imagenes/recetas.png' %}" alt="Gestionar Exámenes y Recetas">
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Exámenes y Recetas</h5>
+                    <p class="card-text">Sube resultados de exámenes médicos, genera recetas para tus pacientes y consulta información médica relevante.</p><br>
+                    <a href="{% url 'examenes_lista_doctor' %}" class="btn">Acceder</a>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Centro de Salud CESFAM</p>
+    </footer>
+</body>
+</html>

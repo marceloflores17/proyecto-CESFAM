@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CESFAM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <style>
+        /* Estilos generales */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .content {
+            flex: 1;
+        }
+
+        /* Nuevo header de bienvenida */
+        .welcome-header {
+            background-color: white;
+            color: #007bff;
+            text-align: center;
+            padding: 0.5em;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Estilo para la cabecera original */
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5em;
+        }
+
+        /* Estilo para CESFAM en azul */
+        .cesfam-link {
+            background-color: white;
+            color: #007bff !important; /* Azul para el texto */
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 0.5em 1em;
+            border-radius: 15px;
+            margin: 0 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 2px solid #007bff; /* Borde azul */
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cesfam-link:hover {
+            background-color: #f4f4f4; /* Fondo gris claro al pasar el mouse */
+            color: #0056b3 !important; /* Azul más oscuro */
+        }
+
+        /* Estilo para los botones de navegación */
+        .nav-buttons {
+            display: flex;
+            gap: 1em;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-button {
+            background-color: transparent;
+            color: white !important; /* Texto blanco */
+            border: 2px solid white;
+            padding: 0.5em 2em;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-button:hover {
+            background-color: #f4f4f4; /* Fondo gris claro */
+            color: #007bff !important; /* Azul */
+        }
+
+        /* Tamaño de los logos dentro del encabezado */
+        .icon {
+            height: 20px;
+            width: 20px;
+            vertical-align: middle;
+        }
+
+        /* Menú desplegable (Redes sociales) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #007bff;
+            padding: 10px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f4f4f4; /* Fondo gris claro al pasar el mouse */
+        }
+
+        .dropdown-content .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Botón de 'Acceder' a la derecha */
+        .access-btn {
+            margin-left: auto; /* Esto alinea el botón a la derecha */
+        }
+
+
+        /* Estilo de la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2em 0;
+            font-size: 1em;
+            text-align: center;
+        }
+        
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #dc3545;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Nuevo header de bienvenida -->
+    <div class="welcome-header">
+        ¡Bienvenido al Centro de Salud CESFAM!
+    </div>
+
+    <!-- Header principal -->
+    <header>
+        <h1 class="text-center"></h1>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'noticias' %}">Noticias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Redes Sociales
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="https://www.instagram.com" target="_blank"><img class="icon" src="{% static 'imagenes/instagram.webp' %}"> Instagram</a></li>
+                                <li><a class="dropdown-item" href="https://www.facebook.com" target="_blank"><img class="icon" src="{% static 'imagenes/facebook.webp' %}"> Facebook</a></li>
+                                <li><a class="dropdown-item" href="https://twitter.com" target="_blank"><img class="icon" src="{% static 'imagenes/x.png' %}"> X/Twitter</a></li>
+                                <li><a class="dropdown-item" href="https://www.tiktok.com" target="_blank"><img class="icon" src="{% static 'imagenes/tiktok.png' %}"> TikTok</a></li>
+                            </ul>
+                        </li>
+        
+                        <!-- CESFAM centrado con fondo blanco -->
+                        <li class="nav-item">
+                            <a class="nav-link cesfam-link" href="{% url 'index' %}">INICIO</a>
+                        </li>
+        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'como_llegar' %}">Cómo Llegar</a>
+                        </li>
+        
+                        <!-- Opción 'Acceder' solo si no hay sesión activa -->
+                        {% if not request.session.usuario %}
+                        <li class="nav-item dropdown access-btn">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAcceder" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Panel de Administración
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownAcceder">
+                                <li><a class="dropdown-item" href="{% url 'login_doctor' %}">Entrar como Doctor</a></li>
+                                <li><a class="dropdown-item" href="{% url 'login_encargado' %}">Entrar como Encargado</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+
+                        <!-- Mostrar 'Cerrar sesión' solo si la sesión está iniciada -->
+                        {% if request.session.usuario %}
+                        <li class="nav-item">
+                            <a class="nav-link nav-button" href="{% url 'logout' %}">Cerrar sesión</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+<footer style="background-color: #007bff; color: white; text-align: center; padding: 1em;">
+    <p>&copy; 2025 Centro de Salud CESFAM</p>
+</footer>
+
+</body>
+</html>

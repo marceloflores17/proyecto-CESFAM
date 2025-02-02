@@ -1,0 +1,54 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+    <div style="text-align: center; padding: 20px;">
+        <br>
+        <h1 style="font-size: 2em; margin-bottom: 15px;">Cómo Llegar</h1>
+        <p style="font-size: 1.1em; margin-bottom: 20px;">Detalles sobre cómo llegar al CESFAM Dr. José Symon Ojeda en Conchalí.</p>
+
+        <!-- Mapa -->
+        <div id="map" style="width: 100%; max-width: 550px; height: 300px; margin: 0 auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"></div>
+
+        <!-- Horarios de Atención -->
+        <div style="margin-top: 30px; background-color: #f1f1f1; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 800px; margin: 30px auto;">
+            <h3 style="font-size: 1.6em; margin-bottom: 15px; color: #007bff;">Horarios de Atención</h3>
+            <p style="font-size: 1.1em;">Lunes a Viernes: 08:00 AM - 05:00 PM</p>
+            <p style="font-size: 1.1em;">Sábados: 09:00 AM - 12:00 PM</p>
+            <p style="font-size: 1.1em;">Domingos y festivos: Cerrado</p>
+        </div>
+
+        <!-- Transporte Público Cercano -->
+        <div style="margin-top: 30px; background-color: #f1f1f1; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 800px; margin: 30px auto;">
+            <h3 style="font-size: 1.6em; margin-bottom: 15px; color: #007bff;">Transporte Público Cercano</h3>
+            <p style="font-size: 1.1em;">Estación de Metro más cercana: <strong>Conchalí (Línea 2)</strong></p>
+            <p style="font-size: 1.1em;">Paraderos de bus cercanos: <strong>Av. José Miguel Carrera</strong> (A 2 minutos a pie)</p>
+        </div>
+
+        <!-- Descripción Breve del CESFAM -->
+        <div style="margin-top: 30px; background-color: #f1f1f1; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 800px; margin: 30px auto;">
+            <h3 style="font-size: 1.6em; margin-bottom: 15px; color: #007bff;">¿Qué es el CESFAM Dr. José Symon Ojeda?</h3>
+            <p style="font-size: 1.1em;">El CESFAM Dr. José Symon Ojeda es un centro de salud de atención primaria ubicado en Conchalí. Ofrecemos atención médica integral, urgencias, exámenes de laboratorio, vacunación y programas de prevención y promoción de la salud.</p>
+        </div>
+
+        <!-- Instrucciones de Acceso o Accesibilidad -->
+        <div style="margin-top: 30px; background-color: #f1f1f1; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 800px; margin: 30px auto;">
+            <h3 style="font-size: 1.6em; margin-bottom: 15px; color: #007bff;">Accesibilidad</h3>
+            <p style="font-size: 1.1em;">El CESFAM cuenta con rampas de acceso, baños accesibles y sillas de ruedas disponibles para quienes lo necesiten.</p>
+        </div>
+
+    </div>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([-33.3961, -70.6542], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([-33.3961, -70.6542]).addTo(map)
+            .bindPopup('CESFAM Dr. José Symon Ojeda')
+            .openPopup();
+    </script>
+{% endblock %}

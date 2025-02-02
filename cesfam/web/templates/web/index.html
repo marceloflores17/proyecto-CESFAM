@@ -1,0 +1,201 @@
+{% extends 'web/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Estilos generales */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    /* Estilo para el contenedor principal */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2em 1em;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2em;
+    }
+
+    /* Estilo para las tarjetas */
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5em;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        text-align: center;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        width: 23%;
+        min-width: 220px;
+        flex: 1 1 23%;
+        margin-bottom: 2em;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Estilo para el botón "Acceder" */
+    .card .access-btn {
+        display: block;
+        margin: 0em auto;
+        padding: 0.8em 1.5em;
+        background-color: #007bff;
+        color: white;
+        font-size: 1em;
+        text-decoration: none;
+        border-radius: 4px;
+        width: fit-content;
+        transition: background-color 0.3s ease;
+        margin-bottom: 1em; 
+    }
+
+    /* Otros estilos para el hover y el botón */
+    .card .access-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .card h3 {
+        background: #007bff;
+        color: white;
+        padding: 1em;
+        font-size: 1.2em;
+        margin-top: 10px;
+        width: 100%;
+        box-sizing: border-box; 
+        height: 70px; /
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card p {
+        padding: 1em;
+        font-size: 1em;
+        flex-grow: 1;
+    }
+
+    .card a {
+        display: block;
+        margin-top: auto;
+        padding: 0.8em 1.5em;
+        background-color: #007bff;
+        color: white;
+        font-size: 1em;
+        text-decoration: none;
+        border-radius: 4px;
+        width: fit-content;
+        transition: background-color 0.3s ease;
+    }
+
+    .card a:hover {
+        background-color: #0056b3;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Estilos para el nuevo bloque de acceso */
+    .access-section {
+        background-color: #fff;
+        padding: 1.2em 2em;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-height: 250px;
+        justify-content: space-between;
+    }
+
+    .access-section h2 {
+        text-align: center;
+        color: #007bff;
+        margin-bottom: 1em;
+        font-size: 1.4em;
+    }
+
+    .access-section a {
+        display: block;
+        text-align: center;
+        margin: 0.5em 0;
+        padding: 0.8em;
+        color: white;
+        background: #007bff;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        font-size: 1.1em;
+    }
+
+    .access-section a:hover {
+        background: #45a049;
+    }
+
+</style>
+
+<div class="container">
+    <!-- Sección de tarjetas -->
+    <div class="cards-container">
+        <div class="card">
+            <img src="{% static 'imagenes/medico2.png' %}" alt="Servicio 1">
+            <h3>Agendar Hora Médica</h3>
+            <p>Reserve hora para atención médica sin tiempo de espera</p>
+            <a href="{% url 'agendar_hora_medica' %}" class="access-btn">Acceder</a>
+        </div>
+        <div class="card">
+            <img src="{% static 'imagenes/dentista.png' %}" alt="Servicio 2">
+            <h3>Agendar Hora Dentista</h3>
+            <p>Reserve una hora para recibir atención dental</p>
+            <a href="{% url 'agendar_hora_dentista' %}" class="access-btn">Acceder</a>
+        </div>
+        <div class="card">
+            <img src="{% static 'imagenes/citas.png' %}" alt="Servicio 3">
+            <h3>Próximas Citas</h3>
+            <p>Consulte su agenda para saber sus próximas citas médicas</p>
+            <a href="{% url 'citas_paciente' %}" class="access-btn">Acceder</a>
+        </div>
+        <div class="card">
+            <img src="{% static 'imagenes/recetas.png' %}" alt="Servicio 4">
+            <h3>Exámenes y Recetas</h3>
+            <p>Vea resultados de sus exámenes y solicite recetas médicas</p>
+            <a href="{% url 'examenes_lista' %}" class="access-btn">Acceder</a>
+        </div>
+    </div>
+</div>
+
+<!-- Nueva sección de acceso -->
+<div class="access-section">
+    <h2>Acceso</h2>
+    {% if user.is_authenticated %}
+        <!-- Si el usuario está autenticado, muestra la opción para cerrar sesión -->
+        <a href="{% url 'logout_paciente' %}">Cerrar sesión</a>
+    {% else %}
+        <!-- Si el usuario no está autenticado, muestra las opciones para iniciar sesión y registrarse -->
+        <a href="{% url 'login_paciente' %}">Iniciar Sesión como Paciente</a>
+        <a href="{% url 'registro_paciente' %}">Registrarse</a>
+    {% endif %}
+</div>
+
+{% endblock %}

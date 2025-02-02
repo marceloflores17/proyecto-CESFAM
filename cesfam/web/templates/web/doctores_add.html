@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Encargado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <style>
+        /* Estilos generales */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .content {
+            flex: 1;
+        }
+
+        /* Header de bienvenida */
+        .welcome-header {
+            background-color: white;
+            color: #28a745;
+            text-align: center;
+            padding: 0.5em;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background-color: #28a745;
+            padding: 0.5em 1em;
+        }
+
+        .navbar-custom .nav-link {
+            background-color: white;
+            color: #28a745 !important; /* Verde para el texto */
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 0.5em 1em;
+            border-radius: 15px;
+            margin: 0 10px;
+            border: 2px solid #28a745; /* Borde verde */
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar-custom .nav-link:hover {
+            background-color: #28a745; /* Fondo verde al pasar */
+            color: white !important; /* Texto blanco */
+        }
+
+        /* Cards */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            padding: 2em;
+        }
+
+        .card {
+            width: 18rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            position: relative;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Asegura que los elementos no se amontonen */
+        }
+
+        /* Centrar contenido de texto */
+        .card-title, .card-text {
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Card imagen */
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card-body {
+            padding-bottom: 60px; /* Ajusta el padding para que haya espacio suficiente para el botón */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Asegura que los textos y el botón tengan espacio */
+            text-align: center; /* Centra todo el contenido del body */
+        }
+
+        /* Botón */
+        .card .btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+        }
+
+        .card .btn:hover {
+            background-color: #1e7e34;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header de bienvenida -->
+    <div class="welcome-header">
+        Registrar Doctor - Panel de Encargado
+    </div>
+
+    <!-- Navbar con palabras en fondo blanco y texto verde -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard_encargado' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Salir</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+<div class="container">
+    <!-- Mostrar mensajes de éxito o error, centrado -->
+     <br>
+    {% if messages %}
+        <div class="mb-4 text-center">
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <!-- Título centrado arriba del formulario -->
+    <br><br>
+    <h2 class="text-center mb-4">Registrar Nuevo Doctor</h2>
+
+    <!-- Formulario centrado -->
+    <form method="POST" autocomplete="off" enctype="multipart/form-data" class="shadow p-4 rounded" style="background-color: #f8f9fa; max-width: 600px; margin: 0 auto;">
+        {% csrf_token %}
+        
+        <div class="form-group mb-3">
+            <label for="rut" class="form-label">RUT:</label>
+            <input type="text" id="rut" name="rut" class="form-control" value="{{ rut }}" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="contrasena" class="form-label">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" class="form-control" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="nombre_completo" class="form-label">Nombre Completo:</label>
+            <input type="text" id="nombre_completo" name="nombre_completo" class="form-control" value="{{ nombre_completo }}" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="especialidad" class="form-label">Especialidad:</label>
+            <select id="especialidad" name="especialidad" class="form-control" required>
+                <option value="" disabled selected>Seleccione una especialidad</option>
+                <option value="Medicina General" {% if especialidad == 'Medicina General' %} selected {% endif %}>Medicina General</option>
+                <option value="Odontología" {% if especialidad == 'Odontología' %} selected {% endif %}>Odontología</option>
+                <option value="Pediatría" {% if especialidad == 'Pediatría' %} selected {% endif %}>Pediatría</option>
+                <option value="Ginecología" {% if especialidad == 'Ginecología' %} selected {% endif %}>Ginecología</option>
+                <option value="Nutrición" {% if especialidad == 'Nutrición' %} selected {% endif %}>Nutrición</option>
+                <option value="Kinesiología" {% if especialidad == 'Kinesiología' %} selected {% endif %}>Kinesiología</option>
+                <option value="Psicología" {% if especialidad == 'Psicología' %} selected {% endif %}>Psicología</option>
+                <option value="Enfermería" {% if especialidad == 'Enfermería' %} selected {% endif %}>Enfermería</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="telefono" class="form-label">Teléfono:</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" value="{{ telefono }}" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="imagen" class="form-label">Imagen:</label>
+            <input type="file" id="imagen" name="imagen" class="form-control">
+        </div>
+
+        <!-- Centrado del botón -->
+        <div class="text-center">
+            <button type="submit" class="btn" style="background-color: #28a745; color: white; width: 100%;">Registrar Doctor</button>
+        </div>
+
+    </form>
+</div>
+
+<br><br>
+<footer>
+    <p>&copy; 2025 Centro de Salud CESFAM</p>
+</footer>

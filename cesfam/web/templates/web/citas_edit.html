@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cita</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Editar Cita</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="fecha_hora">Nueva Fecha y Hora:</label>
+                <!-- Campo unificado para fecha y hora -->
+                <input type="datetime-local" class="form-control" id="fecha_hora" name="fecha" 
+                       value="{{ cita.fecha|date:'Y-m-d\\TH:i' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Motivo de la cita:</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required>{{ cita.descripcion }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{% url 'citas_doctor' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

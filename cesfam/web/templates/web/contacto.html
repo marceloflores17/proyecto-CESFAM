@@ -1,0 +1,154 @@
+{% extends 'web/base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container">
+    <!-- Título centrado arriba del formulario -->
+    <br><br>
+    <h2 class="text-center mb-4">Contáctanos!</h2>
+    
+    <!-- Descripción separada en dos líneas -->
+    <p class="text-center mb-2">
+        ¿Necesitas ayuda? Aquí puedes contactarnos para cancelar, posponer una cita o resolver cualquier duda.
+    </p>
+    <p class="text-center mb-4">
+        ¡Te responderemos lo antes posible!
+    </p>
+
+    <!-- Formulario centrado -->
+    <form method="post" autocomplete="off" class="shadow p-4 rounded" style="background-color: #f8f9fa; max-width: 600px; margin: 0 auto;">
+        {% csrf_token %}
+        
+        <div class="form-group mb-3">
+            <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+            {{ form.nombre|add_class:"form-control" }}
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="{{ form.correo.id_for_label }}">Correo</label>
+            {{ form.correo|add_class:"form-control" }}
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="{{ form.telefono.id_for_label }}">Teléfono (Opcional)</label>
+            {{ form.telefono|add_class:"form-control" }}
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="{{ form.fecha.id_for_label }}">Fecha</label>
+            {{ form.fecha|add_class:"form-control" }}
+        </div>
+        
+        <div class="form-group mb-4">
+            <label for="{{ form.mensaje.id_for_label }}">Mensaje</label>
+            {{ form.mensaje|add_class:"form-control" }}
+        </div>
+    
+        <!-- Centrado del botón -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Enviar</button>
+        </div>
+    </form>
+
+    <!-- Mensajes de éxito o error -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-4 text-center" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<br><br><br><br>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Estilos generales */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Estilo para el contenedor */
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 3em 1em;
+        flex-grow: 1;
+    }
+
+    /* Estilo para el título */
+    h2 {
+        text-align: center;
+        margin-bottom: 1.5em;
+        font-size: 2em;
+    }
+
+    /* Mejora la apariencia del formulario */
+    form {
+        background-color: #fff;
+        padding: 2em;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 2em; 
+    }
+
+    /* Ajustes para los inputs */
+    .form-group {
+        margin-bottom: 1.5em;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 1.1em;
+        margin-bottom: 0.5em;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75em;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 1em;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Estilo para el botón */
+    button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 1em 2em;
+        border-radius: 4px;
+        font-size: 1.1em;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    
+    /* Aseguramos que el footer se quede al fondo */
+    footer {
+        margin-top: auto !important; /* Empuja el footer hacia el final */
+        background-color: #007bff !important;
+        color: white !important;
+        text-align: center !important;
+        padding: 1em 0 !important;
+    }
+</style>
+{% endblock %}

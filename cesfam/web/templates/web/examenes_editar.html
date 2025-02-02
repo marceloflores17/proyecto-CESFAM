@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Examen - Doctor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .content {
+            flex: 1;
+        }
+        .welcome-header {
+            background-color: white;
+            color: #dc3545;
+            text-align: center;
+            padding: 0.5em;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .navbar-custom {
+            background-color: #dc3545;
+            padding: 0.5em 1em;
+        }
+        .navbar-custom .nav-link {
+            background-color: white;
+            color: #dc3545 !important;
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 0.5em 1em;
+            border-radius: 15px;
+            margin: 0 10px;
+            border: 2px solid #dc3545;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .navbar-custom .nav-link:hover {
+            background-color: #dc3545;
+            color: white !important;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 2em auto;
+            padding: 1.5em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 1em;
+        }
+        .btn-action {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        .btn-action:hover {
+            background-color: #a71d2a;
+        }
+        footer {
+            background-color: #dc3545;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+
+        button[type="submit"] {
+            background-color: #dc3545;
+            color: white;
+            padding: 1em 2em;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #c82333;
+        }
+
+
+
+        .btn-back {
+        background-color: #f4f4f4;
+        color: #dc3545;
+        border: 1px solid #dc3545;
+        padding: 0.75em 1.5em;
+        border-radius: 4px;
+        display: block;
+        margin: 1em auto 0 auto;
+        width: 100%;
+        text-align: center;
+        font-size: 1em;
+        }
+
+        .btn-back:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Header de bienvenida -->
+    <div class="welcome-header">
+        Editar Examen - Panel de Doctor
+    </div>
+
+    <!-- Navbar con palabras en fondo blanco y texto rojo -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard_doctor' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Salir</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="content">
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">Editar Examen</h2>
+    
+            {% if messages %}
+            <div class="mb-4 text-center"> <!-- Añadido text-center aquí -->
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+    
+            <div class="form-container">
+                <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+    
+                    <div class="form-group">
+                        <label for="nombre_examen">Nombre del Examen</label>
+                        <input type="text" id="nombre_examen" name="nombre_examen" class="form-control" value="{{ form.nombre_examen.value }}" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="tipo_examen">Tipo de Examen</label>
+                        <select class="form-select" id="tipo_examen" name="tipo_examen" required>
+                            <option value="" disabled selected>Seleccione el tipo de examen</option>
+                            <option value="Laboratorio" {% if form.tipo_examen.value == 'Laboratorio' %}selected{% endif %}>Laboratorio</option>
+                            <option value="Imagenología" {% if form.tipo_examen.value == 'Imagenología' %}selected{% endif %}>Imagenología</option>
+                            <option value="Otros" {% if form.tipo_examen.value == 'Otros' %}selected{% endif %}>Otros</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="doctor">Doctor</label>
+                        {{ form.doctor }}
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="paciente">Paciente</label>
+                        {{ form.paciente }}
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="estado">Estado</label>
+                        {{ form.estado }}
+                    </div>
+    
+                    <div class="form-group mb-3">
+                        <label for="fecha">Fecha y Hora del Examen:</label>
+                        <input type="datetime-local" id="fecha" name="fecha" class="form-control" value="{{ form.fecha.value|date:'Y-m-d\\TH:i' }}" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="archivo">Archivo (Opcional)</label>
+                        <input type="file" id="archivo" name="archivo" class="form-control">
+    
+                        {% if examen.archivo %}
+                            <div class="mt-2 text-center">
+                                {% if archivo_tipo == 'imagen' %}
+                                    <img src="{{ examen.archivo.url }}" alt="Archivo de examen" style="max-width: 150px; height: auto;">
+                                {% elif archivo_tipo == 'pdf' %}
+                                    <i class="fas fa-file-pdf" style="font-size: 50px; color: #dc3545;"></i>
+                                    <p>PDF subido</p>
+                                {% else %}
+                                    <i class="fas fa-file" style="font-size: 50px;"></i>
+                                    <p>Archivo subido</p>
+                                {% endif %}
+                                <a href="{{ examen.archivo.url }}" target="_blank" class="d-block mt-2">Ver archivo actual</a>
+                            </div>
+                        {% endif %}
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary btn-block">Editar Examen</button>
+                </form>
+    
+                <!-- Botón para volver atrás -->
+                <button class="btn btn-back" onclick="window.location.href='{% url 'examenes_lista_doctor' %}'">Volver Atras</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Centro de Salud CESFAM</p>
+    </footer>
+
+</body>
+</html>

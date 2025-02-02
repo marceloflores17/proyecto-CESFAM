@@ -1,0 +1,150 @@
+{% extends 'web/dashboard_encargado.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if doctor %}
+    <h2 class="text-center mb-4">Actualizar Doctor</h2>
+
+
+    {% if messages %}
+    <div class="mb-4 text-center"> <!-- Añadido text-center aquí -->
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+    <form method="POST" autocomplete="off" enctype="multipart/form-data" class="shadow p-4 rounded" style="background-color: #f8f9fa; max-width: 600px; margin: 0 auto;">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="rut" class="form-label">RUT:</label>
+            <input type="text" class="form-control" id="rut" name="rut" value="{{ doctor.rut }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="contrasena" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="contrasena" name="contrasena" value="{{ doctor.contrasena }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="nombre_completo" class="form-label">Nombre Completo:</label>
+            <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" value="{{ doctor.nombre_completo }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="especialidad" class="form-label">Especialidad:</label>
+            <select class="form-control" id="especialidad" name="especialidad" required>
+                <option value="" disabled {% if not doctor.especialidad %}selected{% endif %}>Selecciona una especialidad</option>
+                <option value="Medicina General" {% if doctor.especialidad == 'Medicina General' %}selected{% endif %}>Medicina General</option>
+                <option value="Odontología" {% if doctor.especialidad == 'Odontología' %}selected{% endif %}>Odontología</option>
+                <option value="Pediatría" {% if doctor.especialidad == 'Pediatría' %}selected{% endif %}>Pediatría</option>
+                <option value="Ginecología" {% if doctor.especialidad == 'Ginecología' %}selected{% endif %}>Ginecología</option>
+                <option value="Nutrición" {% if doctor.especialidad == 'Nutrición' %}selected{% endif %}>Nutrición</option>
+                <option value="Kinesiología" {% if doctor.especialidad == 'Kinesiología' %}selected{% endif %}>Kinesiología</option>
+                <option value="Psicología" {% if doctor.especialidad == 'Psicología' %}selected{% endif %}>Psicología</option>
+                <option value="Enfermería" {% if doctor.especialidad == 'Enfermería' %}selected{% endif %}>Enfermería</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono:</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" value="{{ doctor.telefono }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="imagen" class="form-label">Imagen:</label>
+            <input type="file" class="form-control" id="imagen" name="imagen"><br>
+            {% if doctor.imagen %}
+                <div class="text-center">
+                    <img src="{{ doctor.imagen.url }}" alt="Imagen de {{ doctor.nombre_completo }}" style="max-width: 150px; height: auto;">
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <span>No tiene imagen.</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <a href="{% url 'doctores_list' %}" class="btn btn-secondary">Volver a la Lista</a>
+        </div>
+    </form>
+    {% endif %}
+</div>
+<br><br>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* Estilo general para el formulario */
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 3em 1em;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 1.5em;
+        font-size: 2em;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 2em;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 2em;
+    }
+
+    .form-group {
+        margin-bottom: 1.5em;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 1.1em;
+        margin-bottom: 0.5em;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75em;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 1em;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 1em 2em;
+        border-radius: 4px;
+        font-size: 1.1em;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    /* Ajuste para imagen */
+    img {
+        max-width: 150px;
+        height: auto;
+    }
+</style>
+{% endblock %}

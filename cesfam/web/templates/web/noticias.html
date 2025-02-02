@@ -1,0 +1,94 @@
+{% extends 'web/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .cards-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 50px;
+        margin-bottom: 80px;
+    }
+
+    .card {
+        text-align: center;
+        width: 300px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1em;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .card h3 {
+        background: #007bff;
+        color: white;
+        padding: 1em;
+        font-size: 1.2em;
+        margin-top: 10px; /* Espacio entre la imagen y la franja azul */
+        width: 100%; /* Para asegurarnos que ocupe todo el ancho de la card */
+        box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+        height: 90px; /* Altura fija para que todas las franjas tengan el mismo tamaño */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card p {
+        padding: 1em;
+        font-size: 1em;
+    }
+
+    .card a {
+        display: block;
+        margin-top: 1em;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .card a:hover {
+        text-decoration: underline;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<div class="cards-container">
+    <div class="card">
+        <img src="{% static 'imagenes/noticias/noticia1.png' %}" alt="noticia 1">
+        <h3>Nuevo servicio de atención a adultos mayores</h3>
+        <p>El CESFAM ahora cuenta con un servicio especial para la atención de adultos mayores. Descubre los detalles de este nuevo servicio y cómo acceder a él.</p>
+        <a href="{% url 'detalle_noticia' noticia_id=1 %}">Leer más</a>
+    </div>
+
+    <div class="card">
+        <img src="{% static 'imagenes/noticias/noticia2.png' %}" alt="noticia 2">
+        <h3>Campaña de vacunación contra la gripe</h3>
+        <p>Te informamos sobre la campaña de vacunación que comenzará este mes. Asegúrate de conocer los detalles y las fechas disponibles.</p>
+        <a href="{% url 'detalle_noticia' noticia_id=2 %}">Leer más</a>
+    </div>
+
+    <div class="card">
+        <img src="{% static 'imagenes/noticias/noticia3.png' %}" alt="noticia 3">
+        <h3>Reapertura de las consultas médicas</h3>
+        <p>Las consultas médicas presenciales se reanudan este mes. Infórmate sobre cómo reservar tu cita y los nuevos protocolos sanitarios.</p>
+        <a href="{% url 'detalle_noticia' noticia_id=3 %}">Leer más</a>
+    </div>
+</div>
+
+{% endblock %}
